@@ -51,3 +51,20 @@ def draw_grid(w, rows, surfae):
 
 def red_raw_window(surface):
     pass
+
+def random_snake(rows, items):
+    pass
+
+def message_box(subject, content):
+    pass
+
+def main():
+    pass
+
+rows =
+w =
+h =
+
+cube.rows = rows
+cube.w = w
+main()
