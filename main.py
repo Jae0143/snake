@@ -58,13 +58,13 @@ def random_snake(rows, items):
 def message_box(subject, content):
     pass
 
+# main loop
 def main():
-    pass
+    width = 500
+    height = 500
+    rows = 10
+    # Create screen - width, height
+    window = pygame.display.set_mode((width, height))
 
-rows =
-w =
-h =
 
-cube.rows = rows
-cube.w = w
 main()
