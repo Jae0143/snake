@@ -48,3 +48,6 @@ class Snake:
 def draw_grid(w, rows, surfae):
     pass
 
+
+def red_raw_window(surface):
+    pass
