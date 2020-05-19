@@ -45,15 +45,27 @@ class Snake:
         pass
 
 
-def draw_grid(width, rows, surfae):
+def draw_grid(widt, row, wind):
+    # Determining each cube size
+    size_btwen = width // row
+    x = 0
+    y = 0
+    for i in range(rows):
+        x += size_btwen
+        y += size_btwen
+
+        # draw vertical line
+        pygame.draw.line(wind, (255, 255, 255), (x, 0), (x, widt))
+
+        # draw horizontal line
+        pygame.draw.line(wind, (255, 255, 255), (0, y), (widt, y))
 
 
-
-def redraw_window(surface):
-    global rows, width, window
-    # set screen color of window
-    window.fill((0, 0, 0))
-    draw_grid(width, rows, surface)
+def redraw_window(wind):
+    global rows, width
+    # set screen color of window to black
+    wind.fill((0, 0, 0))
+    draw_grid(width, rows, wind)
     pygame.display.update()
 
 
@@ -73,13 +85,20 @@ def main():
     rows = 10
     # Create screen - width, height
     window = pygame.display.set_mode((width, height))
-    # Snake object initiation
-    s = Snake((255, 0, 0), (10, 10))
+
     # Control running
     running = True
 
     clock = pygame.time.Clock()
     while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            # keystroke testing
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    running = False
+
         # pause the programme for an amount of time (millisecond) -> prevent from running to fast
         pygame.time.delay(50)
         # Frame rate limitation of 10
