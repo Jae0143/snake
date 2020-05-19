@@ -43,3 +43,8 @@ class Snake:
     # Instance Method "draw"
     def draw(self, surface):
         pass
+
+
+def draw_grid(w, rows, surfae):
+    pass
+
