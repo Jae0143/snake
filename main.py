@@ -6,6 +6,7 @@ from tkinter import messagebox
 
 
 class Cube:
+    # Class attribute
     rows = 0
     w = 0
 
@@ -19,4 +20,26 @@ class Cube:
 
     # Instance Method "draw"
     def draw(self, surface, eyes=False):
+        pass
+
+
+class Snake:
+    # Initialize instance attribute
+    def __init__(self, color, pos):
+        pass
+
+    # Instance Method "move"
+    def move(self):
+        pass
+
+    # Instance Method "reset"
+    def reset(self, pos):
+        pass
+
+    # Instance Method "addCube"
+    def add_cube(self):
+        pass
+
+    # Instance Method "draw"
+    def draw(self, surface):
         pass
