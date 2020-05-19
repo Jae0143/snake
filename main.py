@@ -45,12 +45,16 @@ class Snake:
         pass
 
 
-def draw_grid(w, rows, surfae):
-    pass
+def draw_grid(width, rows, surfae):
+
 
 
 def redraw_window(surface):
-    pass
+    global rows, width, window
+    # set screen color of window
+    window.fill((0, 0, 0))
+    draw_grid(width, rows, surface)
+    pygame.display.update()
 
 
 def random_snake(rows, items):
@@ -63,6 +67,7 @@ def message_box(subject, content):
 
 # main loop
 def main():
+    global width, rows
     width = 500
     height = 500
     rows = 10
@@ -80,7 +85,7 @@ def main():
         # Frame rate limitation of 10
         clock.tick(10)
 
-        redraw_window(win)
+        redraw_window(window)
 
 
 main()
