@@ -25,7 +25,7 @@ class Cube:
 
 class Snake:
     # Initialize instance attribute
-    def __init__(self, color, pos):
+    def __init__(self, color, position):
         pass
 
     # Instance Method "move"
@@ -49,14 +49,17 @@ def draw_grid(w, rows, surfae):
     pass
 
 
-def red_raw_window(surface):
+def redraw_window(surface):
     pass
+
 
 def random_snake(rows, items):
     pass
 
+
 def message_box(subject, content):
     pass
+
 
 # main loop
 def main():
@@ -65,6 +68,19 @@ def main():
     rows = 10
     # Create screen - width, height
     window = pygame.display.set_mode((width, height))
+    # Snake object initiation
+    s = Snake((255, 0, 0), (10, 10))
+    # Control running
+    running = True
+
+    clock = pygame.time.Clock()
+    while running:
+        # pause the programme for an amount of time (millisecond) -> prevent from running to fast
+        pygame.time.delay(50)
+        # Frame rate limitation of 10
+        clock.tick(10)
+
+        redraw_window(win)
 
 
 main()
