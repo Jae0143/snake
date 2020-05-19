@@ -24,13 +24,59 @@ class Cube:
 
 
 class Snake:
+    # List of cubes = snake body
+    body = []
+    # dictionary of turns
+    turns = {}
+
     # Initialize instance attribute
     def __init__(self, color, position):
-        pass
+        self.color = color
+        # where the head is
+        self.head = Cube(position)
+        self.body.append(self.head)
+        # Direction for x (only one direction moving)
+        self.dirnx = 0
+        # Direction for y
+        self.dirny = 1
 
     # Instance Method "move"
     def move(self):
-        pass
+        # Get a dictionary of keys getting pressed
+        keys = pygame.key.get_pressed()
+
+        for key in keys:
+            # elif prevent more than one key pressing
+
+            if keys[pygame.K_LEFT]:
+                self.dirnx = -1
+                # prevent diagonal move
+                self.dirny = 0
+                # save turns so that the whole body can make a turn
+                self.turns[self.head.position[:]] = [self.dirnx, self.dirny]
+
+            elif keys[pygame.K_RIGHT]:
+                self.dirnx = 1
+                # prevent diagonal move
+                self.dirny = 0
+                # save turns so that the whole body can make a turn
+                self.turns[self.head.position[:]] = [self.dirnx, self.dirny]
+
+            elif keys[pygame.K_UP]:
+                self.dirny = -1
+                # prevent diagnoal move
+                self.dirnx = 0
+                # save turns so that the whole body can make a turn
+                self.turns[self.head.position[:]] = [self.dirnx, self.dirny]
+
+            elif keys[pygame.K_DOWN]:
+                self.dirny = 1
+                # prevent diagnoal move
+                self.dirnx = 0
+                # save turns so that the whole body can make a turn
+                self.turns[self.head.position[:]] = [self.dirnx, self.dirny]
+
+            # Moving Cube
 
     # Instance Method "reset"
     def reset(self, pos):
@@ -45,7 +91,7 @@ class Snake:
         pass
 
 
-def draw_grid(widt, row, wind):
+def draw_grid(widt, row, windo):
     # Determining each cube size
     size_btwen = width // row
     x = 0
@@ -55,17 +101,15 @@ def draw_grid(widt, row, wind):
         y += size_btwen
 
         # draw vertical line
-        pygame.draw.line(wind, (255, 255, 255), (x, 0), (x, widt))
+        pygame.draw.line(windo, (255, 255, 255), (x, 0), (x, widt))
 
         # draw horizontal line
-        pygame.draw.line(wind, (255, 255, 255), (0, y), (widt, y))
+        pygame.draw.line(windo, (255, 255, 255), (0, y), (widt, y))
 
 
-def redraw_window(wind):
+def redraw_window(windo):
     global rows, width
-    # set screen color of window to black
-    wind.fill((0, 0, 0))
-    draw_grid(width, rows, wind)
+    draw_grid(width, rows, windo)
     pygame.display.update()
 
 
@@ -85,6 +129,9 @@ def main():
     rows = 10
     # Create screen - width, height
     window = pygame.display.set_mode((width, height))
+
+    # set screen color to black
+    window.fill((0, 0, 0))
 
     # Control running
     running = True
