@@ -12,7 +12,11 @@ class Cube:
 
     # Initialize instance attribute
     def __init__(self, start, dirnx=0, dirny=0, color=(255, 0, 0)):
-        pass
+        self.pos = start
+        self.dirnx = 1
+        self.dirny = 0
+        self.color = color
+
 
     # Instance Method "move"
     def move(self, dirnx, dirny):
@@ -117,7 +121,12 @@ class Snake:
 
     # Instance Method "draw"
     def draw(self, surface):
-        pass
+        for index, cube in enumerate(self.body):
+            if index == 0:
+                # head
+                cube.draw(surface, True)
+            else:
+                cube.draw(surface)
 
 
 def draw_grid(widt, row, windo):
@@ -137,7 +146,8 @@ def draw_grid(widt, row, windo):
 
 
 def redraw_window(windo):
-    global rows, width
+    global rows, width, snake
+    snake.draw(windo)
     draw_grid(width, rows, windo)
     pygame.display.update()
 
@@ -152,7 +162,7 @@ def message_box(subject, content):
 
 # main loop
 def main():
-    global width, rows
+    global width, rows, snake
     width = 500
     height = 500
     rows = 10
@@ -174,7 +184,7 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
-
+        snake = Snake((255, 0, 0), (10, 10))
         # pause the programme for an amount of time (millisecond) -> prevent from running to fast
         pygame.time.delay(50)
         # Frame rate limitation of 10
