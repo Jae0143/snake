@@ -21,7 +21,7 @@ class Cube:
     def move(self, dirnx, dirny):
         self.dirnx = dirnx
         self.dirny = dirny
-        self.pos(self.pos[0] + self.dirnx, self.pos[1] + self.dirny)
+        self.pos = (self.pos[0] + self.dirnx, self.pos[1] + self.dirny)
 
     # Instance Method "draw"
     def draw(self, surface, eyes=False):
@@ -66,45 +66,48 @@ class Snake:
 
     # Instance Method "move"
     def move(self):
-        # Get a dictionary of keys getting pressed
+        # dictionary of pressed key
         keys = pygame.key.get_pressed()
 
         for key in keys:
             # elif prevent more than one key pressing
-
             if keys[pygame.K_LEFT]:
+
                 self.dirnx = -1
                 # prevent diagonal move
                 self.dirny = 0
                 # save turns so that the whole body can make a turn
-                self.turns[self.head.position[:]] = [self.dirnx, self.dirny]
+                self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
 
             elif keys[pygame.K_RIGHT]:
+
                 self.dirnx = 1
                 # prevent diagonal move
                 self.dirny = 0
                 # save turns so that the whole body can make a turn
-                self.turns[self.head.position[:]] = [self.dirnx, self.dirny]
+                self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
 
             elif keys[pygame.K_UP]:
+
                 self.dirny = -1
                 # prevent diagnoal move
                 self.dirnx = 0
                 # save turns so that the whole body can make a turn
-                self.turns[self.head.position[:]] = [self.dirnx, self.dirny]
+                self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
 
             elif keys[pygame.K_DOWN]:
+
                 self.dirny = 1
                 # prevent diagnoal move
                 self.dirnx = 0
                 # save turns so that the whole body can make a turn
-                self.turns[self.head.position[:]] = [self.dirnx, self.dirny]
+                self.turns[self.head.pos[:]] = [self.dirnx, self.dirny]
 
         # Moving Cube (enumerate = keep count of the iteration)
         # i = index, c = cube
         for i, c in enumerate(self.body):
             # [:] = copy -> each of cube (body) has position -> get their position
-            p = c.position[:]
+            p = c.pos[:]
             # check if the position in turn list
             if p in self.turns:
                 # get turn information
@@ -117,17 +120,17 @@ class Snake:
             else:
                 # boundary checking
                 # Left
-                if c.dirnx == -1 and c.position[0] <= 0:
-                    c.position = (c.rows - 1, c.position[1])
+                if c.dirnx == -1 and c.pos[0] <= 0:
+                    c.pos = (c.rows-1, c.pos[1])
                 # Right
-                elif c.dirnx == 1 and c.position[0] >= c.rows - 1:
-                    c.position = (0, c.position[1])
+                elif c.dirnx == 1 and c.pos[0] >= c.rows - 1:
+                    c.pos = (0, c.pos[1])
                 # Bottom
-                elif c.dirny == 1 and c.position[1] >= c.rows - 1:
-                    c.position = (c.position[0], 0)
+                elif c.dirny == 1 and c.pos[1] >= c.rows - 1:
+                    c.pos = (c.pos[0], 0)
                 # Top
-                elif c.dirny == -1 and c.position[1] <= 0:
-                    c.position = (c.position[0], c.rows - 1)
+                elif c.dirny == -1 and c.pos[1] <= 0:
+                    c.pos = (c.pos[0], c.rows - 1)
                 else:
                     c.move(c.dirnx, c.dirny)
 
@@ -188,6 +191,9 @@ def main():
     snakee = Snake((255, 0, 0), (5, 5))
 
     clock = pygame.time.Clock()
+
+    keys = pygame.key.get_pressed()
+
     while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -200,7 +206,7 @@ def main():
         # pause the programme for an amount of time (millisecond) -> prevent from running to fast
         pygame.time.delay(50)
         # Frame rate limitation of 10
-        clock.tick(10)
+        clock.tick(100)
 
         # set screen color to black
         window.fill((0, 0, 0))
@@ -210,6 +216,9 @@ def main():
 
         # Draw snake
         snakee.draw(window)
+
+        # make snake constantly moving and cheking for key press
+        snakee.move()
 
         pygame.display.update()
 
