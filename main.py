@@ -4,10 +4,9 @@ import pygame
 import tkinter as tk
 from tkinter import messagebox
 
-
 class Cube:
     # Class attribute
-    rows = 10
+    rows = 20
     w = 500
 
     # Initialize instance attribute
@@ -39,8 +38,8 @@ class Cube:
             # eye radius
             radius = 3
             # Eyes coordination
-            eye_1 = (row_cor * dis + 40, colum_cor * dis + 8)
-            eye_2 = (row_cor * dis + 25, colum_cor * dis + 8)
+            eye_1 = (row_cor * dis + 20, colum_cor * dis + 8)
+            eye_2 = (row_cor * dis + 10, colum_cor * dis + 8)
 
             # draw eyes
             pygame.draw.circle(surface, (0, 0, 0), eye_1, radius)
@@ -181,9 +180,14 @@ def main():
     global width, rows
     width = 500
     height = 500
-    rows = 10
+    rows = 20
     # Create screen - width, height
     window = pygame.display.set_mode((width, height))
+
+    # Title and Icon
+    pygame.display.set_caption("Snake")
+    icon = pygame.image.load("icon.png")
+    pygame.display.set_icon(icon)
 
     # Control running
     running = True
