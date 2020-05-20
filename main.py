@@ -32,7 +32,7 @@ class Snake:
     # Initialize instance attribute
     def __init__(self, color, position):
         self.color = color
-        # where the head is
+        # head = cube object -> made out of cube object
         self.head = Cube(position)
         self.body.append(self.head)
         # Direction for x (only one direction moving)
@@ -76,7 +76,36 @@ class Snake:
                 # save turns so that the whole body can make a turn
                 self.turns[self.head.position[:]] = [self.dirnx, self.dirny]
 
-            # Moving Cube
+        # Moving Cube (enumerate = keep count of the iteration)
+        # i = index, c = cube
+        for i, c in enumerate(self.body):
+            # [:] = copy -> each of cube (body) has position -> get their position
+            p = c.position[:]
+            # check if the position in turn list
+            if p in self.turns:
+                # get turn information
+                turn = self.turns[p]
+                # move cube method
+                c.move(turn[0], turn[1])
+                # if last cube = remove from the list, nex time, making wrong turn
+                if i == len(self.body) - 1:
+                    self.turns.pop(p)
+            else:
+                # boundary checking
+                # Left
+                if c.dirnx == -1 and c.position[0] <= 0:
+                    c.position = (c.rows - 1, c.position[1])
+                # Right
+                elif c.dirnx == 1 and c.position[0] >= c.rows - 1:
+                    c.position = (0, c.position[1])
+                # Bottom
+                elif c.dirny == 1 and c.position[1] >= c.rows - 1:
+                    c.position = (c.position[0], 0)
+                # Top
+                elif c.dirny == -1 and c.position[1] <= 0:
+                    c.position = (c.position[0], c.rows - 1)
+                else:
+                    c.move(c.dirnx, c.dirny)
 
     # Instance Method "reset"
     def reset(self, pos):
