@@ -7,8 +7,8 @@ from tkinter import messagebox
 
 class Cube:
     # Class attribute
-    rows = 0
-    w = 0
+    rows = 10
+    w = 500
 
     # Initialize instance attribute
     def __init__(self, start, dirnx=0, dirny=0, color=(255, 0, 0)):
@@ -17,14 +17,34 @@ class Cube:
         self.dirny = 0
         self.color = color
 
-
     # Instance Method "move"
     def move(self, dirnx, dirny):
-        pass
+        self.dirnx = dirnx
+        self.dirny = dirny
+        self.pos(self.pos[0] + self.dirnx, self.pos[1] + self.dirny)
 
     # Instance Method "draw"
     def draw(self, surface, eyes=False):
-        pass
+        dis = self.w // self.rows
+        row_cor = self.pos[0]
+        colum_cor = self.pos[1]
+
+        # Draw (row_cor * dis, colum_cor * dis) -> (x,y, width, height)
+        pygame.draw.rect(surface, self.color, (row_cor * dis + 1, colum_cor * dis + 1, dis - 2, dis - 2))
+
+        # draw eyes on the head
+        if eyes:
+            # find middle
+            center = dis // 2
+            # eye radius
+            radius = 3
+            # Eyes coordination
+            eye_1 = (row_cor * dis + 40, colum_cor * dis + 8)
+            eye_2 = (row_cor * dis + 25, colum_cor * dis + 8)
+
+            # draw eyes
+            pygame.draw.circle(surface, (0, 0, 0), eye_1, radius)
+            pygame.draw.circle(surface, (0, 0, 0), eye_2, radius)
 
 
 class Snake:
@@ -121,12 +141,12 @@ class Snake:
 
     # Instance Method "draw"
     def draw(self, surface):
-        for index, cube in enumerate(self.body):
+        for index, cub in enumerate(self.body):
             if index == 0:
                 # head
-                cube.draw(surface, True)
+                cub.draw(surface, True)
             else:
-                cube.draw(surface)
+                cub.draw(surface)
 
 
 def draw_grid(widt, row, windo):
@@ -145,13 +165,6 @@ def draw_grid(widt, row, windo):
         pygame.draw.line(windo, (255, 255, 255), (0, y), (widt, y))
 
 
-def redraw_window(windo):
-    global rows, width, snake
-    snake.draw(windo)
-    draw_grid(width, rows, windo)
-    pygame.display.update()
-
-
 def random_snake(rows, items):
     pass
 
@@ -162,18 +175,17 @@ def message_box(subject, content):
 
 # main loop
 def main():
-    global width, rows, snake
+    global width, rows
     width = 500
     height = 500
     rows = 10
     # Create screen - width, height
     window = pygame.display.set_mode((width, height))
 
-    # set screen color to black
-    window.fill((0, 0, 0))
-
     # Control running
     running = True
+
+    snakee = Snake((255, 0, 0), (5, 5))
 
     clock = pygame.time.Clock()
     while running:
@@ -184,13 +196,22 @@ def main():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
-        snake = Snake((255, 0, 0), (10, 10))
+
         # pause the programme for an amount of time (millisecond) -> prevent from running to fast
         pygame.time.delay(50)
         # Frame rate limitation of 10
         clock.tick(10)
 
-        redraw_window(window)
+        # set screen color to black
+        window.fill((0, 0, 0))
+
+        # draw grid
+        draw_grid(width, rows, window)
+
+        # Draw snake
+        snakee.draw(window)
+
+        pygame.display.update()
 
 
 main()
