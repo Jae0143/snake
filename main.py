@@ -4,6 +4,7 @@ import pygame
 import tkinter as tk
 from tkinter import messagebox
 
+
 class Cube:
     # Class attribute
     rows = 20
@@ -120,7 +121,7 @@ class Snake:
                 # boundary checking
                 # Left
                 if c.dirnx == -1 and c.pos[0] <= 0:
-                    c.pos = (c.rows-1, c.pos[1])
+                    c.pos = (c.rows - 1, c.pos[1])
                 # Right
                 elif c.dirnx == 1 and c.pos[0] >= c.rows - 1:
                     c.pos = (0, c.pos[1])
@@ -167,8 +168,19 @@ def draw_grid(widt, row, windo):
         pygame.draw.line(windo, (255, 255, 255), (0, y), (widt, y))
 
 
-def random_snake(rows, items):
-    pass
+def random_snack(rows, snake):
+    positions = snake.body
+
+    while True:
+        x = random.randrange(rows)
+        y = random.randrange(rows)
+        # length of filtered list and make sure that snack is not on same position as snack -> skip it
+        if len(list(filter(lambda z: z.pos == (x, y), positions))) > 0:
+            continue
+        else:
+            break
+
+    return (x, y)
 
 
 def message_box(subject, content):
@@ -192,7 +204,11 @@ def main():
     # Control running
     running = True
 
+    # Snake Object
     snakee = Snake((255, 0, 0), (5, 5))
+
+    # Snack object
+    snack = Cube(random_snack(rows, snakee), color=(0,255,0))
 
     clock = pygame.time.Clock()
 
@@ -223,6 +239,13 @@ def main():
 
         # make snake constantly moving and cheking for key press
         snakee.move()
+
+        # check collision and generate new snack
+        if snakee[0].pos == snack.pos:
+            # Increase the length
+            snakee.add_cube()
+            # generate new snack
+            snack = Cube(random_snack(rows, snakee), color=(0,255,0))
 
         pygame.display.update()
 
