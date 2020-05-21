@@ -1,5 +1,5 @@
 # Classic Snake Game
-<img src="example.png" width="720" height="450">
+<img src="example.png" width="500" height="500">
 
 ## Overview
 It is a classic snake game made with PyGame
