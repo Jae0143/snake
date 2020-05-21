@@ -140,7 +140,26 @@ class Snake:
 
     # Instance Method "addCube"
     def add_cube(self):
-        pass
+        # last one in body
+        tail = self.body[-1]
+        dx, dy = tail.dirnx, tail.dirny
+        # add cube depending on the direction of snake moving
+        # moving right -> add at the left
+        if dx == 1 and dy == 0:
+            self.body.append(Cube((tail.pos[0] - 1, tail.pos[1])))
+        # Moving left
+        elif dx == -1 and dy == 0:
+            self.body.append(Cube((tail.pos[0] + 1, tail.pos[1])))
+        # Moving down
+        elif dx == 0 and dy == 1:
+            self.body.append(Cube((tail.pos[0], tail.pos[1] - 1)))
+        # Moving up
+        elif dx == 0 and dy == -1:
+            self.body.append(Cube((tail.pos[0], tail.pos[1] + 1)))
+
+        # Make the moving direction equal to the rest of the body
+        self.body[-1].dirnx = dx
+        self.body[-1].dirny = dy
 
     # Instance Method "draw"
     def draw(self, surface):
@@ -208,7 +227,7 @@ def main():
     snakee = Snake((255, 0, 0), (5, 5))
 
     # Snack object
-    snack = Cube(random_snack(rows, snakee), color=(0,255,0))
+    snack = Cube(random_snack(rows, snakee), color=(0, 255, 0))
 
     clock = pygame.time.Clock()
 
@@ -234,18 +253,20 @@ def main():
         # draw grid
         draw_grid(width, rows, window)
 
-        # Draw snake
-        snakee.draw(window)
-
-        # make snake constantly moving and cheking for key press
-        snakee.move()
+        # Draw snack
+        snack.draw(window)
 
         # check collision and generate new snack
-        if snakee[0].pos == snack.pos:
+        if snakee.body[0].pos == snack.pos:
             # Increase the length
             snakee.add_cube()
             # generate new snack
-            snack = Cube(random_snack(rows, snakee), color=(0,255,0))
+            snack = Cube(random_snack(rows, snakee), color=(0, 255, 0))
+
+        # Draw snake
+        snakee.draw(window)
+        # make snake constantly moving and cheking for key press
+        snakee.move()
 
         pygame.display.update()
 
