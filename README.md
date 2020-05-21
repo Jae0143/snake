@@ -5,5 +5,5 @@
 It is a classic snake game made with PyGame
 
 ## Rule 
-Collect green snack and your snake will get longer
-When the snake bump into itself, game over
+1. Collect green snack and your snake will get longer
+2. When the snake bump into itself, game over
