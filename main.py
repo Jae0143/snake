@@ -1,8 +1,8 @@
-import math
 import random
 import pygame
-import tkinter as tk
-from tkinter import messagebox
+
+# initalize pygame
+pygame.init()
 
 
 class Cube:
@@ -135,8 +135,14 @@ class Snake:
                     c.move(c.dirnx, c.dirny)
 
     # Instance Method "reset"
-    def reset(self, pos):
-        pass
+    def reset(self, position):
+        # reset everything to default
+        self.head = Cube(position)
+        self.body = []
+        self.body.append(self.head)
+        self.turns = {}
+        self.dirnx = 0
+        self.dirny = 1
 
     # Instance Method "addCube"
     def add_cube(self):
@@ -202,13 +208,19 @@ def random_snack(rows, snake):
     return (x, y)
 
 
-def message_box(subject, content):
-    pass
+def message_box(windo, score):
+    over_font = pygame.font.Font('ARCADECLASSIC.TTF', 100)
+    over_font_2 = pygame.font.Font('ARCADECLASSIC.TTF', 50)
+    over_text = over_font.render("GAME OVER", True, (255, 255, 255))
+    over_text_2 = over_font_2.render("Your Score  {}".format(score), True, (255, 255, 255))
+    windo.blit(over_text, (25, 150))
+    windo.blit(over_text_2, (100, 250))
 
 
 # main loop
 def main():
     global width, rows
+    over = False
     width = 500
     height = 500
     rows = 20
@@ -265,9 +277,22 @@ def main():
 
         # Draw snake
         snakee.draw(window)
-        # make snake constantly moving and cheking for key press
+
+        # move snake
         snakee.move()
 
+        # Check the collision between snake body -> game over
+        for index_cube in range(len(snakee.body)):
+
+            # checking if current index_cube's position is in any of the other cube's position
+            if snakee.body[index_cube].pos in list(map(lambda z: z.pos, snakee.body[index_cube + 1:])):
+                over = True
+                break
+        if over:
+            window.fill((0, 0, 0))
+            message_box(window, len(snakee.body))
+
+        # make snake constantly moving and cheking for key press
         pygame.display.update()
 
 
